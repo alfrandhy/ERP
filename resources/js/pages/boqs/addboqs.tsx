@@ -17,6 +17,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Addboqs() {
 
     const {data, setData, post, processing, errors, reset} = useForm({
+        projectcode: '',
         partno: '',
         description: '',
         material: '',
@@ -45,6 +46,21 @@ export default function Addboqs() {
                     <CardContent>
                         <form onSubmit={submit} className='flex flex-col gap-4' autoComplete='off'>
                             <div className='grid gap-6'>
+                                {/* Project Code */}
+                                <div className='grid gap-2'>
+                                    <label htmlFor="partno">Project Code</label>
+                                    <input 
+                                        value={data.projectcode}
+                                        onChange={(e) => setData('projectcode', e.target.value)}
+                                        id='projectcode'
+                                        name='projectcode'
+                                        type='text'
+                                        placeholder='Project Code'
+                                        autoFocus
+                                        tabIndex={1}
+                                    />
+                                </div>
+                                {/* End Project Code */}
                                 {/* Part No */}
                                 <div className='grid gap-2'>
                                     <label htmlFor="partno">Part No.</label>

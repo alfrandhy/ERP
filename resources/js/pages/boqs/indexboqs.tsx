@@ -26,6 +26,7 @@ export default function Indexboqs() {
                     <thead>
                             <tr className="bg-gray-700 text-white">
                                 <th className='p-2'>#</th>
+                                <th className='p-2'>Project Code</th>
                                 <th className='p-2'>Part No.</th>
                                 <th className='p-2'>Descrtiption</th>
                                 <th className='p-2'>Material</th>
@@ -40,6 +41,7 @@ export default function Indexboqs() {
                     <tbody>
                             <tr>
                                 <td className='px-2 py-2 text-center border'>1</td>
+                                <td className='px-2 py-2 text-center border'>Data</td>
                                 <td className='px-2 py-2 text-center border'>Data</td>
                                 <td className='px-2 py-2 text-center border'>Data</td>
                                 <td className='px-2 py-2 text-center border'>Data</td>

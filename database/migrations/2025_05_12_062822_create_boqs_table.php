@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('boqs', function (Blueprint $table) {
             $table->id();
+            $table->string('projectcode');
             $table->string('partno')->unique('partno');
             $table->text('description');
             $table->string('material');
