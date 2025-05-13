@@ -2,7 +2,7 @@ import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
+import { type NavItem, NavGroup } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Component, Folder, LayoutGrid, LucideHome } from 'lucide-react';
 import AppLogo from './app-logo';
@@ -16,6 +16,16 @@ const mainNavItems: NavItem[] = [
     {
         title: 'BOQ Data',
         href: '/boqs',
+        icon: Component,
+    },
+    {
+        title: 'PO List',
+        href: '/pos',
+        icon: Component,
+    },
+    {
+        title: 'PR List',
+        href: '/prs',
         icon: Component,
     },
 ];
