@@ -1,11 +1,13 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import InputError from "@/components/input-error";
 import { Button } from '@/components/ui/button';
 import { LoaderCircle } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Textarea, Select } from '@headlessui/react';
+import { Textarea, Select, Input } from '@headlessui/react';
+import { error } from 'console';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -25,12 +27,22 @@ export default function Addboqs() {
         qty: '',
         unit: '',
         type: '',
+        // uploadimage: null as File | null,
     });
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        post(route('boqs.store'), {
+            onSuccess: () => console.log('Form Submitted'),
+        });
         console.log('data', data);
     };
+
+    // const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     console.log(e.target.files && e.target.files.lenght > 0) {
+    //          setData('uploadimage', e.target.files[0]);
+    //      };
+    // }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -49,7 +61,7 @@ export default function Addboqs() {
                                 {/* Project Code */}
                                 <div className='grid gap-2'>
                                     <label htmlFor="partno">Project Code</label>
-                                    <input 
+                                    <Input 
                                         value={data.projectcode}
                                         onChange={(e) => setData('projectcode', e.target.value)}
                                         id='projectcode'
@@ -59,12 +71,13 @@ export default function Addboqs() {
                                         autoFocus
                                         tabIndex={1}
                                     />
+                                    {errors.projectcode && <InputError message={errors.projectcode} />}
                                 </div>
                                 {/* End Project Code */}
                                 {/* Part No */}
                                 <div className='grid gap-2'>
                                     <label htmlFor="partno">Part No.</label>
-                                    <input 
+                                    <Input 
                                         value={data.partno}
                                         onChange={(e) => setData('partno', e.target.value)}
                                         id='partno'
@@ -74,6 +87,7 @@ export default function Addboqs() {
                                         autoFocus
                                         tabIndex={1}
                                     />
+                                    {errors.partno && <InputError message={errors.partno} />}
                                 </div>
                                 {/* End Part No */}
                                 {/* Description */}
@@ -89,12 +103,13 @@ export default function Addboqs() {
                                         tabIndex={1}
                                         rows={2}
                                     />
+                                    {errors.description && <InputError message={errors.description} />}
                                 </div>
                                 {/* Description */}
                                 {/* Material */}
                                 <div className='grid gap-2'>
                                     <label htmlFor="material">Material</label>
-                                    <input 
+                                    <Input 
                                         value={data.material}
                                         onChange={(e) => setData('material', e.target.value)}
                                         id='material'
@@ -104,12 +119,13 @@ export default function Addboqs() {
                                         autoFocus
                                         tabIndex={1}
                                     />
+                                    {errors.material && <InputError message={errors.material} />}
                                 </div>
                                 {/* Material */}
                                 {/* Dimension */}
                                 <div className='grid gap-2'>
                                     <label htmlFor="dimension">Dimension</label>
-                                    <input 
+                                    <Input 
                                         value={data.dimension}
                                         onChange={(e) => setData('dimension', e.target.value)}
                                         id='dimension'
@@ -119,12 +135,13 @@ export default function Addboqs() {
                                         autoFocus
                                         tabIndex={1}
                                     />
+                                    {errors.dimension && <InputError message={errors.dimension} />}
                                 </div>
                                 {/* End Dimension */}
                                 {/* QTY */}
                                 <div className='grid gap-2'>
                                     <label htmlFor="qty">QTY</label>
-                                    <input 
+                                    <Input 
                                         value={data.qty}
                                         onChange={(e) => setData('qty', e.target.value)}
                                         id='qty'
@@ -134,12 +151,13 @@ export default function Addboqs() {
                                         autoFocus
                                         tabIndex={1}
                                     />
+                                    {errors.qty && <InputError message={errors.qty} />}
                                 </div>
                                 {/* End QTY */}
                                 {/* Unit */}
                                 <div className='grid gap-2'>
                                     <label htmlFor="unit">Unit</label>
-                                    <input 
+                                    <Input 
                                         value={data.unit}
                                         onChange={(e) => setData('unit', e.target.value)}
                                         id='unit'
@@ -149,6 +167,7 @@ export default function Addboqs() {
                                         autoFocus
                                         tabIndex={1}
                                     />
+                                    {errors.unit && <InputError message={errors.unit} />}
                                 </div>
                                 {/* End Unit */}
                                 {/* Type */}
@@ -166,8 +185,16 @@ export default function Addboqs() {
                                         <option value="construction">Construction</option>
                                         <option value="jasa">Jasa</option>
                                     </Select>
+                                    {errors.type && <InputError message={errors.type} />}
                                 </div>
                                 {/* End Type */}
+                                {/* Image Upload */}
+                                {/* <div className='grid gap-2'>
+                                    <label htmlFor="image_upload">Image Upload</label>
+                                    <Input onChange={handleFileUpload} id='upload_image' name='upload_image' type='file' autoFocus tabIndex={4} />
+                                    {errors.type && <InputError message={errors.type} />}
+                                </div> */}
+                                {/* End Image Upload */}
                             </div>
                             <Button type="submit" className="mt-2 w-fit cursor-pointer" tabIndex={4}>
                                 Save Data

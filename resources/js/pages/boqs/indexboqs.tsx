@@ -1,7 +1,8 @@
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -11,10 +12,21 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Indexboqs() {
+    const { flash } = usePage<{flash?: {success?: string; error?: string}}>().props;
+    const flashMessage = flash?.success || flash?.error;
+    // console.log('flash', flash);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="BOQ" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                {/* Alert */ }
+                {(flash?.success || flash?.error) && (
+                <Alert variant={'default'} className={`${flash?.success ? 'bg-green-600' : (flash?.error ? 'bg-red-700' : '')} max-w-md text-white`}>
+                    <AlertTitle className='font-bold'>{flash.success ? 'Success' : 'Error'}</AlertTitle>
+                    <AlertDescription className='text-white'>{flashMessage}</AlertDescription>
+                </Alert>
+                )};
+                {/* End Alert */ }
                 {/* Add Menu Data */ }
                 <div className='ml-auto'>
                     <Link as='Button' href={route('boqs.create')} className='bg-green-500 hover:opacity-85 p-2 rounded-lg text-md text-white'>Add Data</Link>

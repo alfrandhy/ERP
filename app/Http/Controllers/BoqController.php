@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Boq;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facedes\Log;
+use App\Http\Requests\BoqFormRequest;
 use Inertia\Inertia;
 
 class BoqController extends Controller
@@ -27,9 +30,41 @@ class BoqController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BoqFormRequest $request)
     {
-        //
+        // dd($request->all());
+        try {
+            $uploadImage = null;
+            if ($request->file('uploadimage')) {
+                $uploadImage = $request->file('uploadimage');
+                $uploadImageOriginalName = $uploadImage->getClientOriginalName();
+                $uploadImage = $uploadImage->store('boqs', 'public/image/boqs');
+            }
+
+            $boq = Boq::create([
+                'projectcode' => $request->projectcode,
+                'partno' => $request->partno,
+                'description' => $request->description,
+                'material' => $request->material,
+                'dimension' => $request->dimension,
+                'qty' => $request->qty,
+                'unit' => $request->unit,
+                'type' => $request->type,
+                // 'uploadimage' => $uploadImage,
+                // 'uploadimagename' => $uploadImageOriginalName,
+            ]);
+
+            if ($boq) {
+                return redirect()->route('boqs.index')
+                    ->with('success', 'BOQ inputted')
+                ;
+            }
+            return redirect()->back()
+                ->with('error', 'BOQ not inputted, check again')
+            ;
+        } catch (Exception $e) {
+            log::error('BOQ creation failed: ' . $e->getMessage());
+        }
     }
 
     /**
