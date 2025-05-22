@@ -16,7 +16,10 @@ class BoqController extends Controller
      */
     public function index()
     {
-        return Inertia::render('boqs/indexboqs');
+        $boqs = Boq::latest()->get();
+        return Inertia::render('boqs/indexboqs', [
+            'boqs' => $boqs,
+        ]);
     }
 
     /**

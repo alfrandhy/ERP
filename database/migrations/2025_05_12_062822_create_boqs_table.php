@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('qty');
             $table->string('unit');
             $table->string('type');
+            // $table->string('uploadimage');
+            // $table->string('uploadimagename');
             $table->timestamps();
         });
     }

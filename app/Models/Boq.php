@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Boq extends Model
 {
     protected $fillable = [
-        'projectcode', "partno", "description", "material", "dimension", "qty", "unit", "type", 
+        'projectcode', "partno", "description", "material", "dimension", "qty", "unit", "type",
+        // 'uploadimage', 'uploadimagename', 
     ];
 }
