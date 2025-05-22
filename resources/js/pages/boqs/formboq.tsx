@@ -2,40 +2,62 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import InputError from "@/components/input-error";
 import { Button } from '@/components/ui/button';
-import { LoaderCircle } from 'lucide-react';
+import { ArrowLeftIcon, LoaderCircle } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Textarea, Select, Input } from '@headlessui/react';
 import { error } from 'console';
 
-const breadcrumbs: BreadcrumbItem[] = [
+export default function formBoq({ ...props }) {
+
+    const { boq , isView, isEdit } = props;
+
+    // Add this at the top of your component, after the hooks
+    console.log('Initial data:', {
+        projectcode: boq?.projectcode || '',
+        partno: boq?.partno || '',
+        description: boq?.description || '',
+        material: boq?.material || '',
+        dimension: boq?.dimension || '',
+        qty: boq?.qty || '',
+        unit: boq?.unit || '',
+        type: boq?.type || '',
+    });
+
+
+    const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Add BOQ',
+        title: `${isView ? 'Show' : (isEdit ? 'Update' : 'Create' )} BOQ`,
         href: route('boqs.create'),
     },
 ];
 
-export default function Addboqs() {
-
-    const {data, setData, post, processing, errors, reset} = useForm({
-        projectcode: '',
-        partno: '',
-        description: '',
-        material: '',
-        dimension: '',
-        qty: '',
-        unit: '',
-        type: '',
+    const {data, setData, post, put, processing, errors, reset} = useForm({
+        projectcode: boq?.projectcode || '',
+        partno: boq?.partno || '',
+        description: boq?.description || '',
+        material: boq?.material || '',
+        dimension: boq?.dimension || '',
+        qty: boq?.qty || '',
+        unit: boq?.unit || '',
+        type: boq?.type || '',
         // uploadimage: null as File | null,
     });
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route('boqs.store'), {
-            onSuccess: () => console.log('Form Submitted'),
-        });
-        console.log('data', data);
+
+        if(isEdit){
+            put(route('boqs.update', boq.id ), {
+                onSuccess: () => reset(),
+            });
+        } else {
+            post(route('boqs.store'), {
+                onSuccess: () => reset(),
+            });
+        }
+        // console.log('data', data);
     };
 
     // const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,11 +71,16 @@ export default function Addboqs() {
             <Head title="Add BOQ" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className='ml-auto'>
-                    <Link as='button' href={route('boqs.index')} className='bg-red-500 hover:opacity-85 p-2 rounded-lg text-md text-white w-fit cursor-pointer'>Back to List</Link>
+                    <Link 
+                        as='button' 
+                        href={route('boqs.index')} 
+                        className='flex items-center bg-red-500 hover:opacity-85 p-2 rounded-lg text-md text-white w-fit cursor-pointer'>
+                        <ArrowLeftIcon /> Back to List
+                    </Link>
                 </div>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Add BOQ Data</CardTitle>
+                        <CardTitle>{isView ? 'Show' : isEdit ? 'Update' : 'Add'} BOQ Data</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={submit} className='flex flex-col gap-4' autoComplete='off'>
@@ -70,6 +97,7 @@ export default function Addboqs() {
                                         placeholder='Project Code'
                                         autoFocus
                                         tabIndex={1}
+                                        disabled={isView || processing}
                                     />
                                     {errors.projectcode && <InputError message={errors.projectcode} />}
                                 </div>
@@ -86,6 +114,7 @@ export default function Addboqs() {
                                         placeholder='Part No.'
                                         autoFocus
                                         tabIndex={1}
+                                        disabled={isView || processing}
                                     />
                                     {errors.partno && <InputError message={errors.partno} />}
                                 </div>
@@ -102,6 +131,7 @@ export default function Addboqs() {
                                         autoFocus
                                         tabIndex={1}
                                         rows={2}
+                                        disabled={isView || processing}
                                     />
                                     {errors.description && <InputError message={errors.description} />}
                                 </div>
@@ -118,6 +148,7 @@ export default function Addboqs() {
                                         placeholder='Material'
                                         autoFocus
                                         tabIndex={1}
+                                        disabled={isView || processing}
                                     />
                                     {errors.material && <InputError message={errors.material} />}
                                 </div>
@@ -134,6 +165,7 @@ export default function Addboqs() {
                                         placeholder='Dimension'
                                         autoFocus
                                         tabIndex={1}
+                                        disabled={isView || processing}
                                     />
                                     {errors.dimension && <InputError message={errors.dimension} />}
                                 </div>
@@ -150,6 +182,7 @@ export default function Addboqs() {
                                         placeholder='QTY'
                                         autoFocus
                                         tabIndex={1}
+                                        disabled={isView || processing}
                                     />
                                     {errors.qty && <InputError message={errors.qty} />}
                                 </div>
@@ -166,6 +199,7 @@ export default function Addboqs() {
                                         placeholder='Unit'
                                         autoFocus
                                         tabIndex={1}
+                                        disabled={isView || processing}
                                     />
                                     {errors.unit && <InputError message={errors.unit} />}
                                 </div>
@@ -179,7 +213,9 @@ export default function Addboqs() {
                                         id='type' 
                                         name="type" 
                                         autoFocus 
-                                        tabIndex={1}>
+                                        tabIndex={1}
+                                        disabled={isView || processing}
+                                    >
                                         <option value="">Select One Type</option>
                                         <option value="material">Material</option>
                                         <option value="construction">Construction</option>
@@ -196,9 +232,12 @@ export default function Addboqs() {
                                 </div> */}
                                 {/* End Image Upload */}
                             </div>
-                            <Button type="submit" className="mt-2 w-fit cursor-pointer" tabIndex={4}>
-                                Save Data
-                            </Button>
+                            {!isView && (
+                                <Button type="submit" className="mt-2 w-fit cursor-pointer" tabIndex={4}>
+                                    {processing && <LoaderCircle className='h4 w-4 animate-spin' />}
+                                    {processing ? (isEdit ? 'Updating...' : 'Creating...') : isEdit ? 'Update' : 'Save'} Boq
+                                </Button>
+                            )}
                         </form>
                     </CardContent>
                 </Card>
