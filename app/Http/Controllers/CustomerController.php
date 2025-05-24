@@ -56,7 +56,7 @@ class CustomerController extends Controller
 
             $customer = Customer::create([
                 'name' => $request->name,
-                'code' => $request->code,
+                'code' => strtoupper($request->code),
                 'telp' => $request->telp,
                 'address' => $request->address,
                 'customer_logo' => $customerLogo,
