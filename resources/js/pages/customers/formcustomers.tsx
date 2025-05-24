@@ -15,13 +15,13 @@ export default function Formcustomers({ ...props }) {
     const { customer , isView, isEdit } = props;
 
     // Add this at the top of your component, after the hooks
-    // console.log('Initial data:', {
-    //     name: customer?.name || '',
-    //     code: customer?.code || '',
-    //     customer_logo: customer?.customer_logo || '',
-    //     telp: customer?.telp || '',
-    //     address: customer?.address || '',
-    // });
+    console.log('Initial data:', {
+        name: customer?.name || '',
+        code: customer?.code || '',
+        customer_logo: customer?.customer_logo || '',
+        telp: customer?.telp || '',
+        address: customer?.address || '',
+    });
 
 
     const breadcrumbs: BreadcrumbItem[] = [

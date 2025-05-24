@@ -72,7 +72,7 @@ class CustomerController extends Controller
                 ->with('error', 'Customer not inputted, check again')
             ;
         } catch (Exception $e) {
-            log::error('Customer creation failed: ' . $e->getMessage());
+            Log::error('Customer creation failed: ' . $e->getMessage());
         }
     }
 
