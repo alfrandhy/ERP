@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BoqController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,6 +15,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('boqs', BoqController::class);
+
+    Route::resource('customers', CustomerController::class);
 });
 
 require __DIR__.'/settings.php';

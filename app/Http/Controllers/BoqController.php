@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Boq;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facedes\Log;
-use App\Http\Requests\BoqFormRequest;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use App\Http\Requests\BoqFormRequest;
+use Illuminate\Support\Facedes\Log;
 
 class BoqController extends Controller
 {
@@ -50,12 +50,6 @@ class BoqController extends Controller
     {
         // dd($request->all());
         try {
-            // $uploadImage = null;
-            // if ($request->file('uploadimage')) {
-            //     $uploadImage = $request->file('uploadimage');
-            //     $uploadImageOriginalName = $uploadImage->getClientOriginalName();
-            //     $uploadImage = $uploadImage->store('boqs', 'public/image/boqs');
-            // }
 
             $boq = Boq::create([
                 'projectcode' => $request->projectcode,
@@ -66,8 +60,6 @@ class BoqController extends Controller
                 'qty' => $request->qty,
                 'unit' => $request->unit,
                 'type' => $request->type,
-                // 'uploadimage' => $uploadImage,
-                // 'uploadimagename' => $uploadImageOriginalName,
             ]);
 
             if ($boq) {
@@ -121,14 +113,6 @@ class BoqController extends Controller
                 $boq->unit = $request->unit;
                 $boq->type = $request->type;
 
-                if ($request->file('uploadImage')) {
-                    $uploadImage = $request->file('uploadimage');
-                    $uploadImageOriginalName = $uploadImage->getClientOriginalName();
-                    $uploadImage = $uploadImage->store('boqs', 'public/image/boqs');
-
-                    $boq->uploadimage = $uploadImage;
-                    $boq->uploadimagename = $uploadImageOriginalName;
-                }
                 $boq->save();
                 return redirect()->route('boqs.index')->with('success', 'BOQ Updated');
             }
@@ -152,31 +136,5 @@ class BoqController extends Controller
         } catch (Exception $e) {
             Log::error('BOQ deletion failed: ' . $e->getMessage());
         }
-    }
-
-    public function MassUploadData(BoqFormRequest $request) {
-        $validator = Validator::make($request->all(), [
-            'file' => 'required|file|mimes:cvs,xlsx|max:5120'
-        ]);
-
-        if ($validator->fails) {
-            return response()->json(['error', $validator->errors()], 400);
-        }
-         // Process file (example for CSV)
-        $file = $request->file('file');
-        $filePath = $file->getPathname();
-        $file = fopen($filePath, "r");
-
-        // For CSV; for Excel, use a library like PhpOffice/PhpSpreadsheet
-        $header = fgetcsv($file);
-
-        while ($row = fgetcsv($file)) {
-            $data = array_combine($header, $row);
-            Boq::create($data);
-        }
-
-        fclose($file);
-
-        return response()->json('message' => 'Data Uploaded')
     }
 }
