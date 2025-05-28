@@ -10,7 +10,7 @@ import { Textarea, Select, Input } from '@headlessui/react';
 import { error } from 'console';
 import React from 'react';
 
-export default function Formcustomers({ ...props }) {
+export default function Formcustomer({ ...props }) {
 
     const { customer , isView, isEdit } = props;
 

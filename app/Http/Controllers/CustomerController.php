@@ -8,7 +8,7 @@ use Exception;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomerFormRequest;
-use Illuminate\Support\Facedes\Log;
+use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {

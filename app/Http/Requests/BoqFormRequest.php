@@ -30,7 +30,6 @@ class BoqFormRequest extends FormRequest
             'qty'           => 'required|numeric|max:255',
             'unit'          => 'required|string|max:255',
             'type'          => 'required|string|max:255',
-            // 'upload_image'  => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
         ];
     }
 
@@ -44,9 +43,6 @@ class BoqFormRequest extends FormRequest
             'qty.required'          => 'Define the qty for this part',
             'unit.required'         => 'Define the unit for this part',
             'type.required'         => 'Define the type of for this part',
-            // 'uploadimage.image'     => 'The Upload Image only can import Image File (!peg,jpg,png!)',
-            // 'uploadimage.mimes'     => 'The Upload Image cant imported only can import (!peg,jpg,png!)',
-            // 'uploadimage.max'       => 'The Upload Image only can import max 5MB File Size',
         ];
     }
 }

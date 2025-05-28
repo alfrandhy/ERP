@@ -14,15 +14,13 @@ return new class extends Migration
         Schema::create('boqs', function (Blueprint $table) {
             $table->id();
             $table->string('projectcode');
-            $table->string('partno')->unique('partno');
+            $table->string('partno');
             $table->text('description');
             $table->string('material');
             $table->string('dimension');
             $table->string('qty');
             $table->string('unit');
             $table->string('type');
-            // $table->string('uploadimage');
-            // $table->string('uploadimagename');
             $table->timestamps();
         });
     }

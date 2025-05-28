@@ -22,11 +22,12 @@ class CustomerFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'              => 'required|string|max:255',
-            'code'              => 'required|string|max:255|unique:customer',
-            'customer_logo'     => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
-            'telp'              => 'nullable|string|max:15',
-            'address'           => 'nullable|string|max:255',
+            'name'                          => 'required|string|max:255',
+            'code'                          => 'required|string|max:255|unique:customers',
+            'telp'                          => 'nullable|string|max:15',
+            'address'                       => 'nullable|string|max:255',
+            'customer_logo'                 => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
+            'customer_logo_originalname'    => 'nullable|string|max:255',
         ];
     }
 
