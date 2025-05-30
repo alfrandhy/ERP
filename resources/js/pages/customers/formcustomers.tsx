@@ -77,7 +77,7 @@ export default function Formcustomer({ ...props }) {
                         <CardTitle>{isView ? 'Show' : isEdit ? 'Update' : 'Add'} Customer Data</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <form onSubmit={submit} className='flex flex-col gap-4' autoComplete='off'>
+                        <form onSubmit={submit} className='flex flex-col gap-4' autoComplete='on' encType="multipart/form-data">
                             <div className='grid gap-6'>
                                 {/* Project Code */}
                                 <div className='grid gap-2'>
@@ -92,6 +92,7 @@ export default function Formcustomer({ ...props }) {
                                         autoFocus
                                         tabIndex={1}
                                         disabled={isView || processing}
+                                        autoComplete='name'
                                     />
                                     {errors.name && <InputError message={errors.name} />}
                                 </div>
@@ -107,18 +108,37 @@ export default function Formcustomer({ ...props }) {
                                         type='text'
                                         placeholder='Customer Code'
                                         autoFocus
-                                        tabIndex={1}
+                                        tabIndex={2}
                                         disabled={isView || processing}
+                                        // autoComplete='code'
                                     />
                                     {errors.code && <InputError message={errors.code} />}
                                 </div>
                                 {/* End Part No */}
                                 {/* Image Upload */}
-                                <div className='grid gap-2'>
+                                <label htmlFor="customer_logo">Customer Logo</label>
+                                <Input
+                                    onChange={handleFileUpload}
+                                    id='customer_logo'
+                                    name='customer_logo'
+                                    type='file'
+                                    tabIndex={3}
+                                    disabled={isView || processing}
+                                    accept='image/*'
+                                />
+                                {errors.customer_logo && <InputError message={errors.customer_logo} />}
+                                {/* Show preview if editing and image exists */}
+                                {isView && data.customer_logo && typeof data.customer_logo ! == 'string' && (
+                                    <img src={URL.createObjectURL(data.customer_logo)} alt="Customer Logo" className='mt-2 max-h-32 w-auto rounded' />
+                                )}
+                                {isView && customer?.customer_logo && (
+                                    <img src={route('storage') + '/customers/' + customer.customer_logo} alt="Customer Logo" className='mt-2 max-h-32 w-auto rounded' />
+                                )}
+                                {/* <div className='grid gap-2'>
                                     <label htmlFor="customer_logo">Customer Logo</label>
                                     <Input onChange={handleFileUpload} id='customer_logo' name='customer_logo' type='file' autoFocus tabIndex={4} />
                                     {errors.customer_logo && <InputError message={errors.customer_logo} />}
-                                </div> 
+                                </div>  */}
                                 {/* End Image Upload*/}
                                 {/* Part No */}
                                 <div className='grid gap-2'>
@@ -131,8 +151,9 @@ export default function Formcustomer({ ...props }) {
                                         type='text'
                                         placeholder='(022) 65432111'
                                         autoFocus
-                                        tabIndex={1}
+                                        tabIndex={4}
                                         disabled={isView || processing}
+                                        // autoComplete='telp'
                                     />
                                     {errors.telp && <InputError message={errors.telp} />}
                                 </div>
@@ -147,9 +168,10 @@ export default function Formcustomer({ ...props }) {
                                         name='address'
                                         placeholder='Address'
                                         autoFocus
-                                        tabIndex={1}
+                                        tabIndex={5}
                                         rows={2}
                                         disabled={isView || processing}
+                                        autoComplete='address'
                                     />
                                     {errors.address && <InputError message={errors.address} />}
                                 </div>

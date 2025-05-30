@@ -47,20 +47,33 @@ class CustomerController extends Controller
     public function store(CustomerFormRequest $request)
     {
         try {
-            $customerLogo = null;
-            if ($request->file('customer_logo')) {
-                $customerLogo = $request->file('customer_logo');
-                $customerLogoOriginalName = $customerLogo->getClientOriginalName();
-                $customerLogo = $customerLogo->store('erp/customer', 'public');
+            // $customerLogo = null;
+            // if ($request->file('customer_logo')) {
+            //     $customerLogo = $request->file('customer_logo');
+            //     $customerLogoOriginalName = $customerLogo->getClientOriginalName();
+            //     $customerLogo = $customerLogo->store('erp/customer', 'public');
+            // }
+            if ($request->hasFile('customer_logo')) {
+                $image = $request->file('customer_logo');
+                $extension = $image->getClientOriginalExtension();
+                $fileoriginalname = $image->getClientOriginalName();
+                $safeName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $request['name']);
+                $filename = $safeName . '.' . $extension;
+                $path = $image->storeAs('public/customers', $filename);
+                // $validated['customer_logo'] = $filename;
+            } else {
+                // $validated['customer_logo'] = null;
+                $filename = null;
             }
+
 
             $customer = Customer::create([
                 'name' => $request->name,
                 'code' => strtoupper($request->code),
                 'telp' => $request->telp,
                 'address' => $request->address,
-                'customer_logo' => $customerLogo,
-                'customer_logo_originalname' => $customerLogoOriginalName,
+                'customer_logo' => $filename,
+                // 'customer_logo_originalname' => $customerLogoOriginalName,
             ]);
 
             if ($customer) {
@@ -81,7 +94,10 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return Inertia::render('customers/formcustomers', [
+            'customer' => $customer,
+            'isView' => true,
+        ]);
     }
 
     /**
