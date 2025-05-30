@@ -73,7 +73,7 @@ class CustomerController extends Controller
                 'telp' => $request->telp,
                 'address' => $request->address,
                 'customer_logo' => $filename,
-                // 'customer_logo_originalname' => $customerLogoOriginalName,
+                'customer_logo_originalname' => $fileoriginalname,
             ]);
 
             if ($customer) {
