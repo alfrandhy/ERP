@@ -59,8 +59,18 @@ class CustomerController extends Controller
                 $fileoriginalname = $image->getClientOriginalName();
                 $safeName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $request['name']);
                 $filename = $safeName . '.' . $extension;
-                $path = $image->storeAs('public/customers', $filename);
                 // $validated['customer_logo'] = $filename;
+
+                // Define the destination path inside the public/customers directory
+                $destinationPath = public_path('erp/customers');
+
+                // Make sure the directory exists
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+
+                // Move the uploaded file to the public/customers directory
+                $image->move($destinationPath, $filename);
             } else {
                 // $validated['customer_logo'] = null;
                 $filename = null;
