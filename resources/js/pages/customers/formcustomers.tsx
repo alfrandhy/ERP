@@ -62,7 +62,7 @@ export default function Formcustomer({ ...props }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Add Customer" />
+            <Head title={isView ? 'Show Customer' : isEdit ? 'Update Customer' : 'Add Customer'} />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className='ml-auto'>
                     <Link 
@@ -116,29 +116,28 @@ export default function Formcustomer({ ...props }) {
                                 </div>
                                 {/* End Part No */}
                                 {/* Image Upload */}
-                                <label htmlFor="customer_logo">Customer Logo</label>
-                                <Input
-                                    onChange={handleFileUpload}
-                                    id='customer_logo'
-                                    name='customer_logo'
-                                    type='file'
-                                    tabIndex={3}
-                                    disabled={isView || processing}
-                                    accept='image/*'
-                                />
-                                {errors.customer_logo && <InputError message={errors.customer_logo} />}
-                                {/* Show preview if editing and image exists */}
-                                {isView && data.customer_logo && typeof data.customer_logo ! == 'string' && (
-                                    <img src={URL.createObjectURL(data.customer_logo)} alt="Customer Logo" className='mt-2 max-h-32 w-auto rounded' />
+                                {!isView && (
+                                    <div className='grid gap-2'>
+                                        <label htmlFor="customer_logo">Customer Logo</label>
+                                        <Input
+                                            onChange={handleFileUpload}
+                                            id='customer_logo'
+                                            name='customer_logo'
+                                            type='file'
+                                            tabIndex={3}
+                                            disabled={isView || processing}
+                                            accept='image/*'
+                                        />
+                                        {errors.customer_logo && <InputError message={errors.customer_logo} />}
+                                    </div>
+                                )} 
+
+                                {(isView || isEdit) && customer.customer_logo && (
+                                    <div className='grid gap-2'>
+                                        <label htmlFor="customer_logo">{isView ? 'Customer' : 'Current Customer'} Logo</label>
+                                        <img src={`/erp/customers/${customer.customer_logo}`} alt="Customer Logo" className='mt-2 max-h-32 w-auto rounded' />
+                                    </div>
                                 )}
-                                {isView && customer?.customer_logo && (
-                                    <img src={route('storage') + '/customers/' + customer.customer_logo} alt="Customer Logo" className='mt-2 max-h-32 w-auto rounded' />
-                                )}
-                                {/* <div className='grid gap-2'>
-                                    <label htmlFor="customer_logo">Customer Logo</label>
-                                    <Input onChange={handleFileUpload} id='customer_logo' name='customer_logo' type='file' autoFocus tabIndex={4} />
-                                    {errors.customer_logo && <InputError message={errors.customer_logo} />}
-                                </div>  */}
                                 {/* End Image Upload*/}
                                 {/* Part No */}
                                 <div className='grid gap-2'>

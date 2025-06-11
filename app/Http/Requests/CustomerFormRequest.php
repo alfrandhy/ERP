@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\Customer;
 
 class CustomerFormRequest extends FormRequest
 {
@@ -23,7 +25,12 @@ class CustomerFormRequest extends FormRequest
     {
         return [
             'name'                          => 'required|string|max:255',
-            'code'                          => 'required|string|max:255|unique:customers',
+            'code'                          => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('customers')->ignore($this->customer), // Important part
+            ],
             'telp'                          => 'nullable|string|max:15',
             'address'                       => 'nullable|string|max:255',
             'customer_logo'                 => 'nullable|image|mimes:jpeg,jpg,png|max:5120',

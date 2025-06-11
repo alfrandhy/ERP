@@ -87,7 +87,9 @@ export default function Indexcustomers({...props}: { customers: Customer[] }) {
                                     <td className='px-2 py-2 text-center border'>{customer.name}</td>
                                     <td className='px-2 py-2 text-center border'>{customer.code}</td>
                                     <td className='px-2 py-2 text-center border'>
-                                        <img src={customer.customer_logo} alt="Customer Logo" className="h-16 w-16 object-cover" />
+                                        {customer.customer_logo && (
+                                            <img src={`/erp/customers/${customer.customer_logo}`} alt={customer.name} className="h-16 w-16 object-cover" />
+                                        )}
                                     </td>
                                     <td className='px-2 py-2 text-center border'>{customer.telp}</td>
                                     <td className='px-2 py-2 text-center border'>{customer.address}</td>

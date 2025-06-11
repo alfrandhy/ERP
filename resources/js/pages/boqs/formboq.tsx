@@ -42,7 +42,6 @@ export default function formBoq({ ...props }) {
         qty: boq?.qty || '',
         unit: boq?.unit || '',
         type: boq?.type || '',
-        // uploadimage: null as File | null,
     });
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {

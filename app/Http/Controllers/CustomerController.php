@@ -47,19 +47,12 @@ class CustomerController extends Controller
     public function store(CustomerFormRequest $request)
     {
         try {
-            // $customerLogo = null;
-            // if ($request->file('customer_logo')) {
-            //     $customerLogo = $request->file('customer_logo');
-            //     $customerLogoOriginalName = $customerLogo->getClientOriginalName();
-            //     $customerLogo = $customerLogo->store('erp/customer', 'public');
-            // }
             if ($request->hasFile('customer_logo')) {
                 $image = $request->file('customer_logo');
                 $extension = $image->getClientOriginalExtension();
                 $fileoriginalname = $image->getClientOriginalName();
                 $safeName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $request['name']);
                 $filename = $safeName . '.' . $extension;
-                // $validated['customer_logo'] = $filename;
 
                 // Define the destination path inside the public/customers directory
                 $destinationPath = public_path('erp/customers');
@@ -115,7 +108,10 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return Inertia::render('customers/formcustomers', [
+            'customer' => $customer,
+            'isEdit' => true,
+        ]);
     }
 
     /**
@@ -123,7 +119,47 @@ class CustomerController extends Controller
      */
     public function update(CustomerFormRequest $request, Customer $customer)
     {
-        //
+        try {
+            if ($customer) {
+                $customer->name = $request->name;
+                $customer->code = $request->code;
+                $customer->telp = $request->telp;
+                $customer->address = $request->address;
+                
+                if ($request->file('customer_logo')) {
+                    $image = $request->file('customer_logo');
+                    $extension = $image->getClientOriginalExtension();
+                    $fileoriginalname = $image->getClientOriginalName();
+                    $safeName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $request['name']);
+                    $filename = $safeName . '.' . $extension;
+
+                    // Define the destination path inside the public/customers directory
+                    $destinationPath = public_path('erp/customers');
+
+                    // Make sure the directory exists
+                    if (!file_exists($destinationPath)) {
+                        mkdir($destinationPath, 0755, true);
+                    }
+
+                    // Move the uploaded file to the public/customers directory
+                    $image->move($destinationPath, $filename);
+
+                    $customer->customer_logo = $filename;
+                    $customer->customer_logo_originalname = $fileoriginalname;
+                }
+
+                $customer->save();
+
+                return redirect()->route('customers.index')
+                    ->with('success', 'Customer Data Updated')
+                ;
+            }
+            return redirect()->back()
+                ->with('error', 'Customer Data Not Updated, Please Check Again')
+            ;
+        } catch (\Throwable $th) {
+            Log::error('Customer update failed: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -131,6 +167,14 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        try {
+            if ($customer) {
+                $customer->delete();
+                return redirect()->back()->with('success', 'Customer Deleted');
+            }
+            return redirect()->back()->with('error', 'Customer Not Deleted');
+        } catch (Exception $e) {
+            Log::error('Customer deletion failed: ' . $e->getMessage());
+        }
     }
 }
