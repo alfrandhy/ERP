@@ -24,8 +24,8 @@ const mainNavItems: NavItem[] = [
         icon: LucideBookUser,
     },
     {
-        title: 'PR List',
-        href: '/prs',
+        title: 'Project List',
+        href: '/projects',
         icon: ListIcon,
     },
 ];

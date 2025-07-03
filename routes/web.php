@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BoqController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 

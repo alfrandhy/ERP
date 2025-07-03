@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
 use App\Http\Controllers\Controller;
+use App\Models\Project;
+use Exception;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProjectFormRequest;
+use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -13,7 +17,34 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::latest()->get()->map(fn($project) => [
+            'id' => $project->id,
+            'projectcode' => $project->projectcode,
+            'customername' => $project->customername,
+            'descriptionwork' => $project->descriptionwork,
+            'projectcategory' => $project->projectcategory,
+            'pono' => $project->pono,
+            'sino' => $project->sino,
+            'podate' => $project->podate,
+            'orderdatereceived' => $project->orderdatereceived,
+            'month' => $project->month,
+            'year' => $project->year,
+            'deliverydateaccordingtopo' => $project->deliverydateaccordingtopo,
+            'deliverydate' => $project->deliverydate,
+            'remark' => $project->remark,
+            'location' => $project->location,
+            'lastpayment' => $project->lastpayment,
+            'top1' => $project->top1,
+            'top2' => $project->top2,
+            'top3' => $project->top3,
+            'top4' => $project->top4,
+            'projectperformance' => $project->projectperformance,
+            'created_at' => $customer->created_at->format('dMy h:m'),
+            'updated_at' => $customer->updated_at->format('dMy h:m'),
+        ]);
+        return Inertia::render('projects/indexprojects', [
+            'projects' => $projects,
+        ]);
     }
 
     /**
