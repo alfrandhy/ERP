@@ -75,8 +75,8 @@ class CustomerController extends Controller
                 'code' => strtoupper($request->code),
                 'telp' => $request->telp,
                 'address' => $request->address,
-                'customer_logo' => $filename,
-                'customer_logo_originalname' => $fileoriginalname,
+                'customer_logo' => $filename,         
+                'customer_logo_originalname' => $fileoriginalname ?? null,
             ]);
 
             if ($customer) {
