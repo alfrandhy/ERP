@@ -75,7 +75,7 @@ class CustomerController extends Controller
                 'code' => strtoupper($request->code),
                 'telp' => $request->telp,
                 'address' => $request->address,
-                'customer_logo' => $filename,         
+                'customer_logo' => $filename ?? null,         
                 'customer_logo_originalname' => $fileoriginalname ?? null,
             ]);
 
@@ -145,7 +145,7 @@ class CustomerController extends Controller
                     $image->move($destinationPath, $filename);
 
                     $customer->customer_logo = $filename;
-                    $customer->customer_logo_originalname = $fileoriginalname;
+                    $customer->customer_logo_originalname =  $fileoriginalname;
                 }
 
                 $customer->save();
